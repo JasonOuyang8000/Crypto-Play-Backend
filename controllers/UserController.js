@@ -1,4 +1,4 @@
-const { generatePassword, checkPassword, generateUserToken } = require('../helpers/helperFunctions');
+const { generatePassword, checkPassword, generateUserToken, validatePassword } = require('../helpers/helperFunctions');
 const { user } = require('../models/user');
 
 
@@ -9,7 +9,7 @@ userController.create = async (req, res) => {
     try {
         const { username, email, balance, password } = req.body;
 
-        if (!checkPassword(password)) return res.status(400).res.json({error: {
+        if (!validatePassword(password)) return res.status(400).res.json({error: {
             message: 'Password is too short or too long.'
         }});
 
@@ -27,10 +27,6 @@ userController.create = async (req, res) => {
         res.status(201).json({
             userToken
         });
-
-
-        
-
     }
     catch(error) {
         res.status(400).json({
@@ -39,5 +35,35 @@ userController.create = async (req, res) => {
     }
 
 }
+
+userController.login = async (req,res) => {
+    const { username, password} = req.body;
+    try {
+        const findUser = await user.findOne({
+            where: {
+                username
+            }
+        });
+    
+        if (checkPassword(password, findUser.password)) {
+            const userToken = generateUserToken(findUser.id, process.env.SECRET);
+            res.json({
+                userToken
+            });
+        }
+
+        else {
+            return res.status(401).json({error: {
+                message: "Password is incorrect"
+            }});
+        }
+    
+    }
+    catch (error) {
+        res.status({error});
+    }
+ 
+}
+
 
 module.exports = userController;
