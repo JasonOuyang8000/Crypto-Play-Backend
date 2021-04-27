@@ -20,4 +20,10 @@ const generateUserToken = (userId, secret) => {
     return jwt.sign({id: userId}, secret);
 }
 
-module.exports = {generatePassword, checkPassword, generateUserToken, validatePassword}
+const verifyUserToken = (token, secret) => {
+    const { id } = jwt.verify(token, secret);
+    
+    return id;
+}
+
+module.exports = {generatePassword, checkPassword, generateUserToken, validatePassword, verifyUserToken}

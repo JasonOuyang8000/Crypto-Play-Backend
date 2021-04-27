@@ -1,8 +1,10 @@
 const userRouter = require('express').Router();
 
-const { create } = require('../controllers/UserController');
+const { create, login } = require('../controllers/UserController');
 
 userRouter.post('', create);
+
+userRouter.post('/login', login);
 
 
 

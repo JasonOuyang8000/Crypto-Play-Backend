@@ -61,8 +61,11 @@ userController.login = async (req,res) => {
     }
     catch (error) {
         res.status({error});
-    }
- 
+    } 
+}
+
+userController.verify = (req, res) => {
+    
 }
 
 
