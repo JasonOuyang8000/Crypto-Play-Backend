@@ -17,6 +17,6 @@ app.use(findUser);
 app.use('/user', userRouter);
 
 app.listen(port, () => {
-
+    
     rowdyReporter.print();
 });

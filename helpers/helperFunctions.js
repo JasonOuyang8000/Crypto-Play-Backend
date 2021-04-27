@@ -3,12 +3,14 @@ const jwt = require('jsonwebtoken');
 
 // Creates a Password using Bcrypt
 const generatePassword = (password) => {
+    const salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync(password, salt);
 
 }
 
 // Check Password
 const validatePassword = (password) => {
-    return password.length >= 5 || password.length <=30;
+    return password.length >= 5 && password.length <=30;
 };
 
 const checkPassword = (password, hash) => {
@@ -16,8 +18,8 @@ const checkPassword = (password, hash) => {
 }
 
 const generateUserToken = (userId, secret) => {
-
-    return jwt.sign({id: userId}, secret);
+    const token = jwt.sign({id: userId}, secret);
+    return token;
 }
 
 const verifyUserToken = (token, secret) => {

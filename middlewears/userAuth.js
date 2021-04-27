@@ -5,12 +5,19 @@ const { verifyUserToken } = require('../helpers/helperFunctions');
 const findUser = async (req, res, next) => {
     try {
       if (req.headers.authorization) {
-        const id = verifyUserToken(req.headers.authorization, process.env.SECRET);
+
+        const token = req.headers.authorization.split(' ')[1];
+      
+
+        const id = verifyUserToken(token, process.env.SECRET);
+        
         const user = await models.user.findOne({
           where: {
             id
           }
         });
+
+       
     
         req.userFind = user;
 
