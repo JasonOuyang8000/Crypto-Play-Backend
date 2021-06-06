@@ -5,13 +5,9 @@ const jwt = require('jsonwebtoken');
 const generatePassword = (password) => {
     const salt = bcrypt.genSaltSync(10);
     return bcrypt.hashSync(password, salt);
-
 }
 
-// Check Password
-const validatePassword = (password) => {
-    return password.length >= 5 && password.length <=30;
-};
+
 
 const checkPassword = (password, hash) => {
     return bcrypt.compareSync(password, hash);
@@ -28,4 +24,4 @@ const verifyUserToken = (token, secret) => {
     return id;
 }
 
-module.exports = {generatePassword, checkPassword, generateUserToken, validatePassword, verifyUserToken}
+module.exports = {generatePassword, checkPassword, generateUserToken, verifyUserToken}

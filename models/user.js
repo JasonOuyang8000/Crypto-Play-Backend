@@ -1,3 +1,6 @@
+const { generatePassword } = require('../helpers/helperFunctions');
+
+
 'use strict';
 const {
   Model
@@ -23,16 +26,6 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
         len: [4,15],
       }
-      
-    
-    },
-    email: {
-      type:DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-        isEmail: true
-      }
     },
     balance: {
       type:DataTypes.DECIMAL,
@@ -48,11 +41,27 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notEmpty: true,
+          len: [5,20]
         }
-      }
+      },
+    public:
+    {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+      defaultValue:false,
+    }
   }, {
     sequelize,
     modelName: 'user',
-  });
+  }); 
+
+  user.addHook('afterValidate', async (user, options) => {
+    const hashedPassword = generatePassword(user.password);
+    user.password = hashedPassword
+  })
+
   return user;
 };
