@@ -1,5 +1,5 @@
 const axios = require("axios");
-
+const models = require('../models/');
 const cryptoController = {};
 
 
@@ -45,6 +45,33 @@ cryptoController.getCryptoHistory = async (req, res) => {
         })
     }
 }
+
+cryptoController.watchlist = async (req,res) => {
+    try {   
+        
+    }
+    catch(error) {
+        return res.status(400).json({
+            error
+        })
+    }
+}
+
+cryptoController.updateWatchlist = async (req,res) => {
+    try {
+        const [crypto, created] = await models.crypto.findoCreate({
+            where: {
+                uuid: req.body.uuid
+            }
+        });
+    }
+    catch(error) {
+        return res.status(400).json({
+            error
+        })
+    }
+}
+
 
 
 

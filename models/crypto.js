@@ -9,10 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({crypto, transaction, user}) {
-
+    static associate({crypto, transaction, asset, watchlist}) {
+      
       crypto.hasMany(transaction);
-      crypto.belongsToMany(user,{through: 'asset'});
+      crypto.hasMany(asset);
+      crypto.hasMany(watchlist);
     }
   };
   crypto.init({
